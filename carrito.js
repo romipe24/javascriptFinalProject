@@ -56,6 +56,19 @@ class Carrito {
     // this.eliminarProductoLocalStorage(productoID);
     // this.calcularTotal();
   }
+
+  //Elimina todos los productos
+  vaciarCarrito(e) {
+    e.preventDefault();
+    //mientras haya al menos un elemento en la lista productos
+    while (listaProductos.firstChild) {
+      //lo remuevo. Si ve otro elemento lo va a remover y asi hasta que no haya nada por el while .
+      listaProductos.removeChild(listaProductos.firstChild);
+    }
+    //this.vaciarLocalStorage();
+    //cuando ya no ecuentra ningun producto termino
+    return false;
+  }
 }
 
 //     let productosLS;
@@ -81,16 +94,7 @@ class Carrito {
 
 //
 
-//   //Elimina todos los productos
-//   vaciarCarrito(e) {
-//     e.preventDefault();
-//     while (listaProductos.firstChild) {
-//       listaProductos.removeChild(listaProductos.firstChild);
-//     }
-//     this.vaciarLocalStorage();
-
-//     return false;
-//   }
+//
 
 //   //Almacenar en el LS
 //   guardarProductosLocalStorage(producto) {
