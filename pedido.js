@@ -13,7 +13,7 @@ function cargarEventos() {
     carro.comprarProducto(e);
   });
 }
-//     //Cuando se elimina productos del carrito
+//Cuando se elimina productos del carrito
 carrito.addEventListener("click", (e) => {
   carro.eliminarProducto(e);
 });
@@ -23,8 +23,8 @@ vaciarCarritoBtn.addEventListener("click", (e) => {
   carro.vaciarCarrito(e);
 });
 
-//     //Al cargar documento se muestra lo almacenado en LS
-//     document.addEventListener('DOMContentLoaded', carro.leerLocalStorage());
+//Al cargar documento se muestra lo almacenado en LS
+document.addEventListener("DOMContentLoaded", carro.leerLocalStorage());
 
 //     //Enviar pedido a otra pagina
 //     procesarPedidoBtn.addEventListener('click', (e)=>{carro.procesarPedido(e)});

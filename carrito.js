@@ -40,7 +40,8 @@ class Carrito {
           `;
 
     listaProductos.appendChild(row);
-    // this.guardarProductosLocalStorage(producto);
+    //guardo en LS
+    this.guardarProductosLocalStorage(producto);
   }
 
   //Eliminar el producto del carrito en el DOM
@@ -50,10 +51,12 @@ class Carrito {
     if (e.target.classList.contains("borrar-producto")) {
       e.target.parentElement.parentElement.remove();
       producto = e.target.parentElement.parentElement;
-      //pructid voy a necesitarlo despues para borrar de localstorage
-      productoID = producto.querySelector("button").getAttribute("data-id");
+      //en el producto html use un botton pero en el carrito lo defini que se agregue a la lista como un a
+      //tendria que unificar esto
+      productoID = producto.querySelector("a").getAttribute("data-id");
+      console.log(productoID);
     }
-    // this.eliminarProductoLocalStorage(productoID);
+    this.eliminarProductoLocalStorage(productoID);
     // this.calcularTotal();
   }
 
@@ -65,81 +68,107 @@ class Carrito {
       //lo remuevo. Si ve otro elemento lo va a remover y asi hasta que no haya nada por el while .
       listaProductos.removeChild(listaProductos.firstChild);
     }
-    //this.vaciarLocalStorage();
+    //borrar del localstorage
+    this.vaciarLocalStorage();
     //cuando ya no ecuentra ningun producto termino
     return false;
   }
+
+  //Almacenar en el LS
+  guardarProductosLocalStorage(producto) {
+    let productos;
+    //Primero me fijo si ya hay elementos y si hay agregar despues del ultimo
+    productos = this.obtenerProductosLocalStorage();
+    //Agregar el producto al array
+    productos.push(producto);
+    //Agregamos al LS
+    localStorage.setItem("productos", JSON.stringify(productos));
+  }
+
+  //Comprobar que hay elementos en el LS
+  obtenerProductosLocalStorage() {
+    let productoLS;
+
+    //Comprobar si hay algo en LS
+    if (localStorage.getItem("productos") === null) {
+      //si no hay nada creo un array vacio
+      productoLS = [];
+    } else {
+      //si hay algo lo guardo
+      productoLS = JSON.parse(localStorage.getItem("productos"));
+    }
+    return productoLS;
+  }
+
+  //Eliminar producto por ID del LS
+  eliminarProductoLocalStorage(productoID) {
+    let productosLS;
+    //Obtenemos el array de productos
+    productosLS = this.obtenerProductosLocalStorage();
+    //Comparar el id del producto borrado con LS
+    productosLS.forEach(function (productoLS, index) {
+      if (productoLS.id === productoID) {
+        //si es igual lo borro
+        productosLS.splice(index, 1);
+      }
+    });
+    //Actualizo el array del LS
+    localStorage.setItem("productos", JSON.stringify(productosLS));
+  }
+
+  //Mostrar los productos guardados en el LS
+  leerLocalStorage() {
+    let productosLS;
+    productosLS = this.obtenerProductosLocalStorage();
+    productosLS.forEach(function (producto) {
+      //Construir plantilla
+      const row = document.createElement("tr");
+      row.innerHTML = `
+      <td> ${producto.id} </td>
+    <td>
+        <img src="${producto.imagen}" width=100>
+    </td>
+    <td>${producto.titulo}</td>
+    <td>${producto.precio}</td>
+    <td> ${producto.cantidad} </td>
+    <td>
+        <a href="#" class="borrar-producto fas fa-times-circle" data-id="${producto.id}"></a>
+    </td>
+`;
+      listaProductos.appendChild(row);
+    });
+  }
+
+  //Eliminar todos los datos del LS
+  vaciarLocalStorage() {
+    localStorage.clear();
+  }
 }
 
-//     let productosLS;
-//     productosLS = this.obtenerProductosLocalStorage();
-//     productosLS.forEach(function (productoLS) {
-//       if (productoLS.id === infoProducto.id) {
-//         productosLS = productoLS.id;
-//       }
-//     });
-
-//     if (productosLS === infoProducto.id) {
-//       Swal.fire({
-//         type: "info",
-//         title: "Oops...",
-//         text: "El producto ya está agregado",
-//         showConfirmButton: false,
-//         timer: 1000,
-//       });
-//     } else {
-//       this.insertarCarrito(infoProducto);
-//     }
-//   }
-
 //
 
 //
-
-//   //Almacenar en el LS
-//   guardarProductosLocalStorage(producto) {
-//     let productos;
-//     //Toma valor de un arreglo con datos del LS
-//     productos = this.obtenerProductosLocalStorage();
-//     //Agregar el producto al carrito
-//     productos.push(producto);
-//     //Agregamos al LS
-//     localStorage.setItem("productos", JSON.stringify(productos));
+// let productosLS;
+// productosLS = this.obtenerProductosLocalStorage();
+// productosLS.forEach(function (productoLS) {
+//   if (productoLS.id === infoProducto.id) {
+//     productosLS = productoLS.id;
 //   }
+// });
 
-//   //Comprobar que hay elementos en el LS
-//   obtenerProductosLocalStorage() {
-//     let productoLS;
+// if (productosLS === infoProducto.id) {
+//   console.log("ya ingresado");
+//   // Swal.fire({
+//   //   type: "info",
+//   //   title: "Oops...",
+//   //   text: "El producto ya está agregado",
+//   //   showConfirmButton: false,
+//   //   timer: 1000,
+//   //  });
+// } else {
+//
 
-//     //Comprobar si hay algo en LS
-//     if (localStorage.getItem("productos") === null) {
-//       productoLS = [];
-//     } else {
-//       productoLS = JSON.parse(localStorage.getItem("productos"));
-//     }
-//     return productoLS;
-//   }
-
-//   //Mostrar los productos guardados en el LS
-//   leerLocalStorage() {
-//     let productosLS;
-//     productosLS = this.obtenerProductosLocalStorage();
-//     productosLS.forEach(function (producto) {
-//       //Construir plantilla
-//       const row = document.createElement("tr");
-//       row.innerHTML = `
-//                 <td>
-//                     <img src="${producto.imagen}" width=100>
-//                 </td>
-//                 <td>${producto.titulo}</td>
-//                 <td>${producto.precio}</td>
-//                 <td>
-//                     <a href="#" class="borrar-producto fas fa-times-circle" data-id="${producto.id}"></a>
-//                 </td>
-//             `;
-//       listaProductos.appendChild(row);
-//     });
-//   }
+//
 
 //   //Mostrar los productos guardados en el LS en compra.html
 //   leerLocalStorageCompra() {
@@ -169,26 +198,11 @@ class Carrito {
 //     });
 //   }
 
-//   //Eliminar producto por ID del LS
-//   eliminarProductoLocalStorage(productoID) {
-//     let productosLS;
-//     //Obtenemos el arreglo de productos
-//     productosLS = this.obtenerProductosLocalStorage();
-//     //Comparar el id del producto borrado con LS
-//     productosLS.forEach(function (productoLS, index) {
-//       if (productoLS.id === productoID) {
-//         productosLS.splice(index, 1);
-//       }
-//     });
+//
 
-//     //Añadimos el arreglo actual al LS
-//     localStorage.setItem("productos", JSON.stringify(productosLS));
-//   }
+//
 
-//   //Eliminar todos los datos del LS
-//   vaciarLocalStorage() {
-//     localStorage.clear();
-//   }
+//
 
 //   //Procesar pedido
 //   procesarPedido(e) {
