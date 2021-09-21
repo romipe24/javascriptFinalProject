@@ -19,6 +19,7 @@ class Carrito {
       precio: producto.querySelector(".precio span").textContent,
       cantidad: 1,
     };
+    //comparar si ese producto ya fue agregado al carrito LS o no
     let productosLS;
     productosLS = this.obtenerProductosLocalStorage();
     productosLS.forEach(function (productoLS) {
@@ -29,13 +30,7 @@ class Carrito {
 
     if (productosLS === infoProducto.id) {
       console.log("ya ingresado");
-      // Swal.fire({
-      //   type: "info",
-      //   title: "Oops...",
-      //   text: "El producto ya está agregado",
-      //   showConfirmButton: false,
-      //   timer: 1000,
-      //  });
+      //podria poner una alerta con sweet alert
     } else {
       this.insertarCarrito(infoProducto);
     }
@@ -160,6 +155,18 @@ class Carrito {
       listaProductos.appendChild(row);
     });
   }
+
+  //Procesar pedido
+  procesarPedido(e) {
+    e.preventDefault();
+    //si el carrito esta vacio
+    if (this.obtenerProductosLocalStorage().length === 0) {
+      //cambiar por un alert
+      console.log("El carrito esta vacio");
+    } else {
+      location.href = "carrito.html";
+    }
+  }
 }
 //
 
@@ -202,22 +209,7 @@ class Carrito {
 
 //
 
-//   //Procesar pedido
-//   procesarPedido(e) {
-//     e.preventDefault();
-
-//     if (this.obtenerProductosLocalStorage().length === 0) {
-//       Swal.fire({
-//         type: "error",
-//         title: "Oops...",
-//         text: "El carrito está vacío, agrega algún producto",
-//         showConfirmButton: false,
-//         timer: 2000,
-//       });
-//     } else {
-//       location.href = "compra.html";
-//     }
-//   }
+//
 
 //   //Calcular montos
 //   calcularTotal() {
