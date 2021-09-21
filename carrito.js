@@ -19,8 +19,26 @@ class Carrito {
       precio: producto.querySelector(".precio span").textContent,
       cantidad: 1,
     };
+    let productosLS;
+    productosLS = this.obtenerProductosLocalStorage();
+    productosLS.forEach(function (productoLS) {
+      if (productoLS.id === infoProducto.id) {
+        productosLS = productoLS.id;
+      }
+    });
 
-    this.insertarCarrito(infoProducto);
+    if (productosLS === infoProducto.id) {
+      console.log("ya ingresado");
+      // Swal.fire({
+      //   type: "info",
+      //   title: "Oops...",
+      //   text: "El producto ya está agregado",
+      //   showConfirmButton: false,
+      //   timer: 1000,
+      //  });
+    } else {
+      this.insertarCarrito(infoProducto);
+    }
   }
 
   //muestra producto seleccionado en carrito
@@ -72,6 +90,10 @@ class Carrito {
     this.vaciarLocalStorage();
     //cuando ya no ecuentra ningun producto termino
     return false;
+  }
+  //Eliminar todos los datos del LS
+  vaciarLocalStorage() {
+    localStorage.clear();
   }
 
   //Almacenar en el LS
@@ -134,38 +156,14 @@ class Carrito {
     <td>
         <a href="#" class="borrar-producto fas fa-times-circle" data-id="${producto.id}"></a>
     </td>
-`;
+    `;
       listaProductos.appendChild(row);
     });
   }
-
-  //Eliminar todos los datos del LS
-  vaciarLocalStorage() {
-    localStorage.clear();
-  }
 }
-
 //
 
 //
-// let productosLS;
-// productosLS = this.obtenerProductosLocalStorage();
-// productosLS.forEach(function (productoLS) {
-//   if (productoLS.id === infoProducto.id) {
-//     productosLS = productoLS.id;
-//   }
-// });
-
-// if (productosLS === infoProducto.id) {
-//   console.log("ya ingresado");
-//   // Swal.fire({
-//   //   type: "info",
-//   //   title: "Oops...",
-//   //   text: "El producto ya está agregado",
-//   //   showConfirmButton: false,
-//   //   timer: 1000,
-//   //  });
-// } else {
 //
 
 //
