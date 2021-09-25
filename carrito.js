@@ -70,7 +70,7 @@ class Carrito {
       console.log(productoID);
     }
     this.eliminarProductoLocalStorage(productoID);
-    // this.calcularTotal();
+    this.calcularTotal();
   }
 
   //Elimina todos los productos
@@ -193,37 +193,55 @@ class Carrito {
       listaCompra.appendChild(row);
     });
   }
+
+  // lo comento pq listacompra me da null
+
+  leerLocalStorageCompra() {
+    let productosLS;
+    productosLS = this.obtenerProductosLocalStorage();
+    productosLS.forEach(function (producto) {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+                <td> ${producto.id}</td>
+                <td>
+                    <img src="${producto.imagen}" width=100>
+                </td>
+                <td>${producto.titulo}</td>
+                
+                <td>
+                    <input type="number" class="form-control cantidad" min="1" value=${
+                      producto.cantidad
+                    }>
+                </td>
+                <td>${producto.precio}</td>
+                <td id='subtotales'>${producto.precio * producto.cantidad}</td>
+                <td>
+                    <a href="#" class="borrar-producto fas fa-times-circle" style="font-size:30px" data-id="${
+                      producto.id
+                    }"></a>
+                </td>
+            `;
+      listaCompra.appendChild(row);
+    });
+  }
+
+  //Calcular montos
+  calcularTotal() {
+    let productosLS;
+    let total = 0,
+      iva = 0,
+      subtotal = 0;
+    productosLS = this.obtenerProductosLocalStorage();
+    for (let i = 0; i < productosLS.length; i++) {
+      let element = Number(productosLS[i].precio * productosLS[i].cantidad);
+      total = total + element;
+    }
+    //tofixed es para decimales
+    iva = parseFloat(total * 0.22).toFixed(2);
+    subtotal = parseFloat(total - iva).toFixed(2);
+
+    document.getElementById("subtotal").innerHTML = "$ " + subtotal;
+    document.getElementById("igv").innerHTML = "$ " + iva;
+    document.getElementById("total").value = "$ " + total.toFixed(2);
+  }
 }
-
-// lo comento pq listacompra me da null
-
-//   leerLocalStorageCompra() {
-//     let productosLS;
-//     productosLS = this.obtenerProductosLocalStorage();
-//     productosLS.forEach(function (producto) {
-//       const row = document.createElement("tr");
-//       row.innerHTML = `
-//                 <td>
-//                     <img src="${producto.imagen}" width=100>
-//                 </td>
-//                 <td>${producto.titulo}</td>
-//                 <td>${producto.precio}</td>
-//                 <td>
-//                     <input type="number" class="form-control cantidad" min="1" value=${
-//                       producto.cantidad
-//                     }>
-//                 </td>
-//                 <td id='subtotales'>${producto.precio * producto.cantidad}</td>
-//                 <td>
-//                     <a href="#" class="borrar-producto fas fa-times-circle" style="font-size:30px" data-id="${
-//                       producto.id
-//                     }"></a>
-//                 </td>
-//             `;
-//       listaCompra.appendChild(row);
-//     });
-//   }
-
-//
-
-//

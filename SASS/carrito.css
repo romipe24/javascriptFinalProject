@@ -326,3 +326,7 @@ a {
   margin-right: 30px;
   margin-bottom: 20px;
 }
+
+#cargando {
+  display: none;
+}
