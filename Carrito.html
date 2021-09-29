@@ -160,7 +160,8 @@
                         
                           </div>
                             <div class="row justify-content-center" id="loaders">
-                              <img id="cargando" src="imagenes/iconos compra/cargando.gif" width="220">
+                              <!-- no me esta agarranfo el width de la imagen  -->
+                              <img id="cargando" src="imagenes/iconos compra/cargando.gif" width="50">
                           </div>
 
                           <div class="row justify-content-between">
@@ -168,7 +169,7 @@
                                   <a href="Productos.html" class="btn btn-info btn-block">Seguir comprando</a>
                               </div>
                               <div class="col-xs-12 col-md-4">
-                                  <a href="#" class="btn btn-success btn-block" id="procesar-compra">Realizar compra</a>
+                                  <button text="send" type="submit" href="#" class="btn btn-success btn-block" id="procesar-compra" value="">Realizar compra</button>
                               </div>
                             </div>  
                 
@@ -192,6 +193,17 @@
       integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
       crossorigin="anonymous"
     ></script>
+
+    <!-- <script type="text/javascript"
+     src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+     -->
+     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.3.2/dist/email.min.js"></script>
+
+     <script type="text/javascript">
+      emailjs.init('user_fCmqTPWS33r3Bq6jg5r65')
+    </script>
+   
 
     <script src="/carrito.js"></script>
   

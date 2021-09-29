@@ -29,8 +29,8 @@ class Carrito {
     });
 
     if (productosLS === infoProducto.id) {
+      //aca tengo que actualizar elcontador cuando es repetido
       console.log("ya ingresado");
-      //podria poner una alerta con sweet alert
     } else {
       this.insertarCarrito(infoProducto);
     }
